@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tool id="Jvenn" name="Venn diagram" version="2019.02.21">
+<tool id="Jvenn" name="Venn diagram" version="2019.06.27">
 	<description>[JVenn]
 	</description>
 	<command><![CDATA[
@@ -44,7 +44,7 @@
 					</param>
 				</when>
 			</conditional>
-			<param type="text" name="name" value="" label="Enter the name of this list" help="This name will be displayed on venn diagram">
+			<param type="text" name="name" value="" label="Enter the name of this list" help="This name will be displayed on venn diagram" optional="false">
 				<sanitizer>
 					<valid initial="string.printable">
 						<remove value="&apos;"/>
@@ -53,6 +53,7 @@
 						<add source="&apos;" target="__sq__"/>
 					</mapping>
 				</sanitizer>
+				<validator type="regex" message="Please enter a list name">[a-zA-Z0-9._-]+</validator>
 			</param>
 		</repeat>
 	</inputs>
@@ -102,7 +103,7 @@ It also creates output text file that contain common or specific elements betwee
 
 -----
 
-**Inputs**
+**Input**
 
 Can be either a list entered in a copy/paste mode or a single or multi-columns file (txt, tsv, csv, tab, output from other tools) up to six lists/files
 
@@ -110,17 +111,37 @@ Can be either a list entered in a copy/paste mode or a single or multi-columns f
 		
 * **for example an IDs list file** in .txt format, with 1 ID per line
 
-AMY1A
-  
-ALB	
+.. csv-table:: tab1
+    :header: "Ids"
 
-IGKC	
 
-CSTA	
-
-IGHA1 	
+    "AMY1A"
+    "ALB"	
+    "IGKC"	
+    "CSTA"	
+    "IGHA1"
 		
 If you use a file as input list, it is necessary to specify the column number on which to apply the comparison.
+
+Ids in a line will be split by ";", so if you have this kind of input : 
+
+.. csv-table:: tab with multiple ids per line
+    :header: "Ids"
+
+    "P22531"
+    "P04792"
+    "P01834"
+    "Q96KK5"
+    "Q06830;P60709;P13646;P31949"
+    "P06702"
+    "P14923"
+    "Q13835"
+
+All ID will be considered (i.e. Q06830,P60709,P13646 and P31949 will be split).
+
+.. class:: warningmark
+	
+In copy/paste mode, the number of IDs considered in input is limited to 5000.
 
 -----
 
@@ -134,7 +155,7 @@ If you use a file as input list, it is necessary to specify the column number on
 
 Two outputs are generated:
 		
-* **Graphical file**: Venn diagram that you can either display (interactive mode) or download as image (PNG, SVG format)
+* **Graphical file**: Venn diagram that you can either display (interactive mode) or download as an image (PNG, SVG format)
 		
 * **Venn text output file** : a text file containing specific elements or shared by lists/files.
 
@@ -150,11 +171,11 @@ Philippe Bardou, Jérôme Mariette, Frédéric Escudié, Christophe Djemiel and 
 
 **Galaxy integration**
 
-T.P. Lien Nguyen, Florence Combes, Yves Vandenbrouck CEA, INSERM, CNRS, Grenoble-Alpes University, BIG Institute, FR
+Lien Nguyen, David Chistiany, Florence Combes, Yves Vandenbrouck CEA, INSERM, CNRS, Grenoble-Alpes University, BIG Institute, FR
 
 Sandra Dérozier, Olivier Rué, Christophe Caron, Valentin Loux INRA, Paris-Saclay University, MAIAGE Unit,Migale Bioinformatics platform
 
-Contact support@proteore.org for any questions or concerns about the Galaxy implementation of this tool.
+Help: contact@proteore.org for any questions or concerns about this tool.
 ]]></help>
    <citations>
    </citations>
